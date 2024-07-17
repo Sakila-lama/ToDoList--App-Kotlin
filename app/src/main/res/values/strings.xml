@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Assignment3-COMP3025</string>
+    <string name="todo_name_label">Todo Name</string>
+    <string name="todo_name_hint">Enter todo name</string>
+    <string name="notes_label">Notes</string>
+    <string name="notes_hint">Enter notes</string>
+    <string name="due_date_label">Due Date</string>
+    <string name="set_due_date">Set Due Date</string>
+    <string name="mark_as_completed">Mark as Completed</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="completed">Completed</string>
+    <string name="task_name">Task Name</string>
+    <string name="due_date">Due Date</string>
+    <string name="edit">Edit</string>
 </resources>
