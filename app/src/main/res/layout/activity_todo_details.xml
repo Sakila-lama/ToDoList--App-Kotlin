@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#050505"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/labelTodoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/todo_name_label"
+        android:textColor="#E8EEEF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextTodoName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/todo_name_hint"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/labelNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/notes_label"
+        android:textColor="#E8EEEF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextNotes"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/notes_hint"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/labelDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/due_date_label"
+        android:textColor="#E8EEEF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <CalendarView
+        android:id="@+id/calendarViewDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6C7798" />
+
+    <Switch
+        android:id="@+id/switchDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/set_due_date"
+        android:textColor="#E8EEEF" />
+
+    <Switch
+        android:id="@+id/switchCompletedDetail"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/mark_as_completed"
+        android:textColor="#E8EEEF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/update" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/delete" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/cancel" />
+    </LinearLayout>
+
+</LinearLayout>
