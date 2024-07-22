@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text_hint_colour">#757373</color>
+    <color name="DueDateColor">#6C7798</color>
+    <color name="PurpleColour">#ffd0bcff</color>
 </resources>

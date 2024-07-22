@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/due_date"
+            android:textColorLink="@color/PurpleColour"
             android:textSize="14sp"
             android:visibility="visible" />
 
@@ -45,5 +46,6 @@
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:text="Edit" />
+        android:text="Edit"
+        android:textColorLink="@color/PurpleColour" />
 </LinearLayout>

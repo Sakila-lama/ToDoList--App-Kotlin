@@ -1,3 +1,13 @@
+/**
+ * File Name: Todo.kt
+ * Author: Sakila lama
+ * StudentID: 200548805
+ * Date: July, 21st, 2024
+ * App Description: Data class representing a Todo item
+ * Version: 1.0
+ */
+
+
 package ca.georgiancollege.assignment3_comp3025
 
 import java.io.Serializable

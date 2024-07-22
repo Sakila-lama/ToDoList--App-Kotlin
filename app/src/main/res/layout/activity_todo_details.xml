@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/todo_name_label"
-        android:textColor="#E8EEEF"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/notes_label"
-        android:textColor="#E8EEEF"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/due_date_label"
-        android:textColor="#E8EEEF"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
         android:id="@+id/calendarViewDueDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#6C7798" />
+        android:background="@color/DueDateColor" />
 
     <Switch
         android:id="@+id/switchDueDate"
@@ -65,7 +65,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:text="@string/set_due_date"
-        android:textColor="#E8EEEF"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <Switch
@@ -74,7 +74,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:text="@string/mark_as_completed"
-        android:textColor="#E8EEEF"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -88,21 +88,24 @@
             android:id="@+id/buttonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="@string/update" />
+            android:text="@string/update"
+            android:textColorLink="@color/PurpleColour" />
 
         <Button
             android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:text="@string/delete" />
+            android:text="@string/delete"
+            android:textColorLink="@color/PurpleColour" />
 
         <Button
             android:id="@+id/buttonCancel"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textColorLink="@color/PurpleColour" />
     </LinearLayout>
 
 </LinearLayout>
