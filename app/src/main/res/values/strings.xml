@@ -15,4 +15,5 @@
     <string name="task_name">Task Name</string>
     <string name="due_date">Due Date</string>
     <string name="edit">Edit</string>
+    <string name="add_todo">Add Todo</string>
 </resources>
