@@ -56,9 +56,20 @@ class TodoDetailsActivity : AppCompatActivity() {
                 }
             }
 
+            // Toggle Calendar visibility based on Date Switch
+            binding.switchHasDueDate.isChecked = it.hasDueDate
+            binding.calendarViewDueDate.isEnabled = it.hasDueDate
+            binding.switchHasDueDate.setOnCheckedChangeListener { _, isChecked ->
+                binding.calendarViewDueDate.isEnabled = isChecked
+                isDataChanged = true
+            }
+        }
+
             // Track changes in the fields
             binding.editTextTodoName.addTextChangedListener { isDataChanged = true }
             binding.editTextNotes.addTextChangedListener { isDataChanged = true }
+            binding.switchCompletedDetail.setOnCheckedChangeListener { _, _ -> isDataChanged = true }
+
 
 
             // Set click listener for the update button
