@@ -13,6 +13,7 @@ package ca.georgiancollege.assignment4_comp3025
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import ca.georgiancollege.assignment4_comp3025.databinding.ActivityTodoDetailsBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,7 +25,7 @@ class TodoDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodoDetailsBinding
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val firestore = FirebaseFirestore.getInstance() // Initialize Firestore instance
-
+    private var isDataChanged = false // To track if any data was changed
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,58 +55,92 @@ class TodoDetailsActivity : AppCompatActivity() {
                     Log.e("TodoDetailsActivity", "Error parsing date: ${e.message}")
                 }
             }
-        }
 
-        // Set click listener for the update button
-        binding.buttonUpdate.setOnClickListener {
-            // Update todo logic
-            todo?.let {
-                it.name = binding.editTextTodoName.text.toString()
-                it.notes = binding.editTextNotes.text.toString()
-                it.isCompleted = binding.switchCompletedDetail.isChecked
-                it.hasDueDate = binding.calendarViewDueDate.visibility == android.view.View.VISIBLE
-                it.dueDate = if (it.hasDueDate) dateFormat.format(binding.calendarViewDueDate.date) else ""
+            // Track changes in the fields
+            binding.editTextTodoName.addTextChangedListener { isDataChanged = true }
+            binding.editTextNotes.addTextChangedListener { isDataChanged = true }
 
-                if (it.name.isNotEmpty()) {
-                 updateTodoInFirestore(it) // Save the changes to Firestore
-                } else {
-                    Toast.makeText(this, "Todo name cannot be empty", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 
-        // Set click listener for the delete button
-        binding.buttonDelete.setOnClickListener {
-            // Delete todo logic
-        }
+            // Set click listener for the update button
+            binding.buttonUpdate.setOnClickListener {
+                showConfirmationDialog(
+                    title = "Update Todo",
+                    message = "Are you sure you want to update this Todo?",
+                    positiveAction = {
+                        todo?.let {
+                            it.name = binding.editTextTodoName.text.toString()
+                            it.notes = binding.editTextNotes.text.toString()
+                            it.isCompleted = binding.switchCompletedDetail.isChecked
+                            it.hasDueDate =
+                                binding.calendarViewDueDate.visibility == android.view.View.VISIBLE
+                            it.dueDate =
+                                if (it.hasDueDate) dateFormat.format(binding.calendarViewDueDate.date) else ""
 
-        // Set click listener for the cancel button
-        binding.buttonCancel.setOnClickListener {
-            finish()
-        }
-    }
-    // Method to update the Todo in Firestore
-    private fun updateTodoInFirestore(todo: Todo) {
-        firestore.collection("todos")
-            .whereEqualTo("name", todo.name) // Find the document based on the name
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    firestore.collection("todos")
-                        .document(document.id)
-                        .set(todo)
-                        .addOnSuccessListener {
-                            Log.d("TodoDetailsActivity", "Todo successfully updated in Firestore")
-                            setResult(RESULT_OK)
-                            finish()
+                            if (it.name.isNotEmpty()) {
+                                updateTodoInFirestore(it) // Save the changes to Firestore
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Todo name cannot be empty",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
                         }
-                        .addOnFailureListener { e ->
-                            Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
-                        }
+                    }
+                )
+            }
+
+            // Set click listener for the delete button
+            binding.buttonDelete.setOnClickListener {
+                // Delete todo logic
+            }
+
+            // Set click listener for the cancel button
+            binding.buttonCancel.setOnClickListener {
+                finish()
+            }
+        }
+        // Method to update the Todo in Firestore
+        private fun updateTodoInFirestore(todo: Todo) {
+            firestore.collection("todos")
+                .whereEqualTo("name", todo.name) // Find the document based on the name
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        firestore.collection("todos")
+                            .document(document.id)
+                            .set(todo)
+                            .addOnSuccessListener {
+                                Log.d(
+                                    "TodoDetailsActivity",
+                                    "Todo successfully updated in Firestore"
+                                )
+                                setResult(RESULT_OK)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
+                            }
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
-            }
+                .addOnFailureListener { e ->
+                    Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
+                }
+        }
+
+        // Method to show a confirmation dialog
+        private fun showConfirmationDialog(
+            title: String,
+            message: String,
+            positiveAction: () -> Unit
+        ) {
+            AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes") { _, _ -> positiveAction() }
+                .setNegativeButton("No", null)
+                .show()
+        }
     }
 }
