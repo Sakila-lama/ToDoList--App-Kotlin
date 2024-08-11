@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "134702746653",
+    "project_id": "todolist-b1c67",
+    "storage_bucket": "todolist-b1c67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134702746653:android:e3e3b422eb39701943caf4",
+        "android_client_info": {
+          "package_name": "ca.georgiancollege.assignment4_comp3025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7X3xA0lcGMhEQq3jHW0NA0pFWDo5nHOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
