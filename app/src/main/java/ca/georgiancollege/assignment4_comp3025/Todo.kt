@@ -13,8 +13,10 @@ package ca.georgiancollege.assignment4_comp3025
 import java.io.Serializable
 
 class Todo (
-    var name: String,
-    var notes: String,
-    var dueDate: String,
-    var isCompleted: Boolean
+    var id: String = "", // Unique ID for Firestore document
+    var name: String = "",
+    var notes: String = "",
+    var dueDate: String = "",
+    var isCompleted: Boolean = false,
+    var hasDueDate: Boolean = false
 ) : Serializable

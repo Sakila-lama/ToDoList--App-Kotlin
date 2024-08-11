@@ -12,8 +12,10 @@ package ca.georgiancollege.assignment4_comp3025
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ca.georgiancollege.assignment4_comp3025.databinding.ActivityTodoDetailsBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -21,6 +23,9 @@ import java.util.Locale
 class TodoDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodoDetailsBinding
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val firestore = FirebaseFirestore.getInstance() // Initialize Firestore instance
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,19 @@ class TodoDetailsActivity : AppCompatActivity() {
         // Set click listener for the update button
         binding.buttonUpdate.setOnClickListener {
             // Update todo logic
+            todo?.let {
+                it.name = binding.editTextTodoName.text.toString()
+                it.notes = binding.editTextNotes.text.toString()
+                it.isCompleted = binding.switchCompletedDetail.isChecked
+                it.hasDueDate = binding.calendarViewDueDate.visibility == android.view.View.VISIBLE
+                it.dueDate = if (it.hasDueDate) dateFormat.format(binding.calendarViewDueDate.date) else ""
+
+                if (it.name.isNotEmpty()) {
+                 updateTodoInFirestore(it) // Save the changes to Firestore
+                } else {
+                    Toast.makeText(this, "Todo name cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         // Set click listener for the delete button
@@ -65,5 +83,18 @@ class TodoDetailsActivity : AppCompatActivity() {
         binding.buttonCancel.setOnClickListener {
             finish()
         }
+    }
+    // Method to update the Todo in Firestore
+    private fun updateTodoInFirestore(todo: Todo) {
+        firestore.collection("todos")
+            .document(todo.id) // Use the unique ID for the document
+            .set(todo)
+            .addOnSuccessListener {
+                Log.d("TodoDetailsActivity", "Todo successfully updated in Firestore")
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
+            }
     }
 }

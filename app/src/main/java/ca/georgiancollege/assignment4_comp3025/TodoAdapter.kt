@@ -10,6 +10,7 @@
 
 package ca.georgiancollege.assignment4_comp3025
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -37,17 +38,15 @@ class TodoAdapter
                 binding.textViewDueDate.visibility = if (todo.dueDate.isNotEmpty()) android.view.View.VISIBLE else android.view.View.GONE
 
             // Conditionally show the Switch and Edit Button
-            if (todo.name.isNotEmpty()) {
-                binding.switchCompleted.visibility = android.view.View.VISIBLE
-                binding.buttonEdit.visibility = android.view.View.VISIBLE
-            } else {
-                binding.switchCompleted.visibility = android.view.View.GONE
-                binding.buttonEdit.visibility = android.view.View.GONE
-            }
+            binding.switchCompleted.visibility = if (todo.name.isNotEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+            binding.buttonEdit.visibility = if (todo.name.isNotEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+
 
             // Set click listener for the edit button
             binding.buttonEdit.setOnClickListener {
-                onEditClick(todo)
+                val intent = Intent(binding.root.context, TodoDetailsActivity::class.java)
+                intent.putExtra("TODO", todo) // Pass the selected Todo item to TodoDetailsActivity
+                binding.root.context.startActivity(intent) // Start TodoDetailsActivity
             }
 
             // Set change listener for the completion switch

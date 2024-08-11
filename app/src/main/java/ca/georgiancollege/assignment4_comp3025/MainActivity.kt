@@ -80,15 +80,18 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("OK") { dialog, _ ->
             val todoName = input.text.toString()
             if (todoName.isNotEmpty()) {
+                val id = firestore.collection("todos").document().id // Generate a unique ID
                 val newTodo = Todo(
                     name = todoName,
                     notes = "",
                     dueDate = "",
-                    isCompleted = false
+                    isCompleted = false,
+                    hasDueDate = false
                 )
 
                 firestore.collection("todos")
-                    .add(newTodo)
+                    .document(id) // Uses the generated ID
+                    .set(newTodo)
                     .addOnSuccessListener {
                         todoList.add(newTodo)
                         todoAdapter.notifyItemInserted(todoList.size - 1)
