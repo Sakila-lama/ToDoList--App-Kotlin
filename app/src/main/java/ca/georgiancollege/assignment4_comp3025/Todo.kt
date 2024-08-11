@@ -13,7 +13,6 @@ package ca.georgiancollege.assignment4_comp3025
 import java.io.Serializable
 
 class Todo (
-    var id: String = "", // Unique ID for Firestore document
     var name: String = "",
     var notes: String = "",
     var dueDate: String = "",

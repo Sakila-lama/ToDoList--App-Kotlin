@@ -10,10 +10,13 @@
 
 package ca.georgiancollege.assignment4_comp3025
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,16 +30,29 @@ class MainActivity : AppCompatActivity() {
     private val todoList = mutableListOf<Todo>() // List to hold Todo items
     private val firestore = FirebaseFirestore.getInstance()
 
+    // Declare the ActivityResultLauncher
+    private lateinit var todoDetailsLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize the ActivityResultLauncher
+        todoDetailsLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Reload todos when returning from TodoDetailsActivity
+                loadTodos()
+            }
+        }
+
         // Initialize the adapter with the todoList and a click listener for the edit button
         todoAdapter = TodoAdapter(todoList) { todo ->
             val intent = Intent(this, TodoDetailsActivity::class.java)
             intent.putExtra("TODO", todo) // Pass the selected Todo item to TodoDetailsActivity
-            startActivity(intent)
+            todoDetailsLauncher.launch(intent)  // Launch the activity for result
         }
 
         // Set up the RecyclerView with the adapter and a layout manager
@@ -80,7 +96,6 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("OK") { dialog, _ ->
             val todoName = input.text.toString()
             if (todoName.isNotEmpty()) {
-                val id = firestore.collection("todos").document().id // Generate a unique ID
                 val newTodo = Todo(
                     name = todoName,
                     notes = "",
@@ -90,8 +105,7 @@ class MainActivity : AppCompatActivity() {
                 )
 
                 firestore.collection("todos")
-                    .document(id) // Uses the generated ID
-                    .set(newTodo)
+                    .add(newTodo)
                     .addOnSuccessListener {
                         todoList.add(newTodo)
                         todoAdapter.notifyItemInserted(todoList.size - 1)
@@ -102,24 +116,6 @@ class MainActivity : AppCompatActivity() {
 
         builder.show()
     }
+
 }
 
-    /*** // Function to load initial Todo items into the list
-    private fun loadTodos() {
-        todoList.add(Todo("Sample Task 1", "Notes for Task 1", "2024-07-11", false))
-        todoList.add(Todo("Sample Task 2", "Notes for Task 2", "", false))
-        todoAdapter.notifyDataSetChanged()
-    }
-
-    // Function to add a new Todo item to the list
-    private fun addNewTodo() {
-        val newTodo = Todo(
-            name = "New Task",
-            notes = "Notes for new task",
-            dueDate = "", // or some default date
-            isCompleted = false
-        )
-        todoList.add(newTodo)
-        todoAdapter.notifyItemInserted(todoList.size - 1)
-    }
-} **/

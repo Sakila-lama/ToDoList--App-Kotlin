@@ -11,10 +11,12 @@
 package ca.georgiancollege.assignment4_comp3025
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ca.georgiancollege.assignment4_comp3025.databinding.ItemTodoBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 // Adapter for displaying a list of Todo items in a RecyclerView
@@ -53,6 +55,28 @@ class TodoAdapter
             binding.switchCompleted.setOnCheckedChangeListener { _, isChecked ->
                 todo.isCompleted = isChecked
                 binding.textViewTaskName.alpha = if (isChecked) 0.5f else 1.0f
+
+                // Update the status in Firestore by finding the correct document
+                val firestore = FirebaseFirestore.getInstance()
+                firestore.collection("todos")
+                    .whereEqualTo("name", todo.name) // Find the document based on the name
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            firestore.collection("todos")
+                                .document(document.id)
+                                .set(todo) // Update the document with the new data
+                                .addOnSuccessListener {
+                                    Log.d("TodoAdapter", "Todo completion status updated in Firestore")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("TodoAdapter", "Error updating completion status in Firestore", e)
+                                }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("TodoAdapter", "Error finding document in Firestore", e)
+                    }
 
             }
         }

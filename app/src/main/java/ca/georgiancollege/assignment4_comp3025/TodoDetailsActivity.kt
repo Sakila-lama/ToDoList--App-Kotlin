@@ -87,11 +87,22 @@ class TodoDetailsActivity : AppCompatActivity() {
     // Method to update the Todo in Firestore
     private fun updateTodoInFirestore(todo: Todo) {
         firestore.collection("todos")
-            .document(todo.id) // Use the unique ID for the document
-            .set(todo)
-            .addOnSuccessListener {
-                Log.d("TodoDetailsActivity", "Todo successfully updated in Firestore")
-                finish()
+            .whereEqualTo("name", todo.name) // Find the document based on the name
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    firestore.collection("todos")
+                        .document(document.id)
+                        .set(todo)
+                        .addOnSuccessListener {
+                            Log.d("TodoDetailsActivity", "Todo successfully updated in Firestore")
+                            setResult(RESULT_OK)
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
+                        }
+                }
             }
             .addOnFailureListener { e ->
                 Log.e("TodoDetailsActivity", "Error updating Todo in Firestore", e)
