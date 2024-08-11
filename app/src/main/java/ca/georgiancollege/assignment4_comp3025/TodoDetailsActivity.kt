@@ -8,12 +8,12 @@
  */
 
 
-package ca.georgiancollege.assignment3_comp3025
+package ca.georgiancollege.assignment4_comp3025
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import ca.georgiancollege.assignment3_comp3025.databinding.ActivityTodoDetailsBinding
+import ca.georgiancollege.assignment4_comp3025.databinding.ActivityTodoDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 

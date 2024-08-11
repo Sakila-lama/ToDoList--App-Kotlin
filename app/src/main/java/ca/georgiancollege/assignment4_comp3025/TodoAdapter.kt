@@ -8,13 +8,12 @@
  */
 
 
-package ca.georgiancollege.assignment3_comp3025
+package ca.georgiancollege.assignment4_comp3025
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ca.georgiancollege.assignment3_comp3025.databinding.ItemTodoBinding
+import ca.georgiancollege.assignment4_comp3025.databinding.ItemTodoBinding
 
 // Adapter for displaying a list of Todo items in a RecyclerView
 class TodoAdapter

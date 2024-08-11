@@ -1,4 +1,4 @@
-package ca.georgiancollege.assignment3_comp3025
+package ca.georgiancollege.assignment4_comp3025
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

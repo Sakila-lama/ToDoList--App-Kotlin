@@ -8,13 +8,13 @@
  */
 
 
-package ca.georgiancollege.assignment3_comp3025
+package ca.georgiancollege.assignment4_comp3025
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import ca.georgiancollege.assignment3_comp3025.databinding.ActivityMainBinding
+import ca.georgiancollege.assignment4_comp3025.databinding.ActivityMainBinding
 
 // MainActivity class displaying a list of Todo items
 class MainActivity : AppCompatActivity() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment3-COMP3025</string>
+    <string name="app_name">Assignment4-COMP3025</string>
     <string name="todo_name_label">Todo Name</string>
     <string name="todo_name_hint">Enter todo name</string>
     <string name="notes_label">Notes</string>
