@@ -2,8 +2,10 @@
  * File name: TodoDetailsActivity.kt
  * Author: Sakila Lama
  * StudentID: 200548805
- * Date: July, 21st, 2024
- * App description: Activity for displaying and editing details of a Todo item.
+ * Date:August, 11th, 2024
+ * App description: This file contains the TodoDetailsActivity class which is responsible for displaying
+ *  * and editing details of a specific Todo item. It allows users to update the name, notes, completion status,
+ *  * and due date of a Todo item and persist these changes to Firebase Firestore.
  * Version information: 1.0
  */
 
@@ -22,18 +24,26 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-// Activity for displaying and editing details of a Todo item
+/**
+ * TodoDetailsActivity class is responsible for displaying the details of a specific Todo item,
+ * allowing the user to edit its properties and save these changes to Firebase Firestore.
+ */
 class TodoDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodoDetailsBinding
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val firestore = FirebaseFirestore.getInstance() // Initialize Firestore instance
     private var isDataChanged = false // To track if any data was changed
 
-
+    /**
+     * onCreate method is called when the activity is created. It initializes the UI components,
+     * populates them with the data from the selected Todo item, and sets up listeners for user interactions.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         // Retrieve the Todo object passed via Intent
         val todo = intent.getSerializableExtra("TODO") as? Todo
@@ -64,10 +74,12 @@ class TodoDetailsActivity : AppCompatActivity() {
             // Set the initial state of the switch
             binding.switchDueDate.isChecked = it.hasDueDate
             binding.calendarViewDueDate.isEnabled = it.hasDueDate
+
             // Toggle Calendar visibility based on Date Switch
             binding.switchDueDate.setOnCheckedChangeListener { _, isChecked ->
                 binding.calendarViewDueDate.isEnabled = isChecked
                 isDataChanged = true
+
             }
         }
 
@@ -100,10 +112,8 @@ class TodoDetailsActivity : AppCompatActivity() {
                             it.name = binding.editTextTodoName.text.toString()
                             it.notes = binding.editTextNotes.text.toString()
                             it.isCompleted = binding.switchCompletedDetail.isChecked
-                            it.hasDueDate =
-                                binding.calendarViewDueDate.visibility == android.view.View.VISIBLE
-                            it.dueDate =
-                                if (it.hasDueDate) dateFormat.format(binding.calendarViewDueDate.date) else ""
+                            it.hasDueDate = binding.switchDueDate.isChecked
+                            it.dueDate = if (it.hasDueDate) dateFormat.format(binding.calendarViewDueDate.date) else ""
 
                             if (it.name.isNotEmpty()) {
                                 updateTodoInFirestore(it) // Save the changes to Firestore
@@ -145,7 +155,10 @@ class TodoDetailsActivity : AppCompatActivity() {
                 }
             }
         }
-    // Method to update the Todo in Firestore
+    /**
+     * updateTodoInFirestore method updates the given Todo item in Firebase Firestore.
+     * @param todo The Todo item to be updated.
+     */
     private fun updateTodoInFirestore(todo: Todo) {
         firestore.collection("todos")
             .whereEqualTo("name", todo.name) // Find the document based on the name
@@ -170,7 +183,10 @@ class TodoDetailsActivity : AppCompatActivity() {
             }
     }
 
-    // Method to delete the Todo from Firestore
+    /**
+     * deleteTodoFromFirestore method deletes the given Todo item from Firebase Firestore.
+     * @param todo The Todo item to be deleted.
+     */
     private fun deleteTodoFromFirestore(todo: Todo) {
         firestore.collection("todos")
             .whereEqualTo("name", todo.name)
@@ -195,7 +211,13 @@ class TodoDetailsActivity : AppCompatActivity() {
             }
     }
 
-        // Method to show a confirmation dialog
+    /**
+     * showConfirmationDialog method displays a confirmation dialog with the given title, message,
+     * and actions for positive and negative buttons.
+     * @param title The title of the dialog.
+     * @param message The message of the dialog.
+     * @param positiveAction The action to perform when the positive button is clicked.
+     */
         private fun showConfirmationDialog(
             title: String,
             message: String,

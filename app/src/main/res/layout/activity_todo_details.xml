@@ -57,8 +57,7 @@
         android:id="@+id/calendarViewDueDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/DueDateColor"
-        android:enabled="false" />
+        android:background="@color/DueDateColor" />
 
     <Switch
         android:id="@+id/switchDueDate"

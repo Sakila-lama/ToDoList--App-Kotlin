@@ -2,8 +2,9 @@
  * File name: MainActivity.kt
  * Author: Sakila lama
  * StudentID: 200548805
- * Date: July, 21st, 2024
- * App description: MainActivity class displaying a list of Todo items.
+ * Date: August 11th, 2024
+ * App description:This file contains the MainActivity class which manages the main screen of the Todo app.
+ *  * It displays a list of Todo items and allows the user to add new Todos, edit existing ones, and persist data to Firebase.
  * Version information: 1.0
  */
 
@@ -23,16 +24,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ca.georgiancollege.assignment4_comp3025.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
-// MainActivity class displaying a list of Todo items
+/**
+ * MainActivity class is responsible for displaying the list of Todo items and handling user interactions
+ * such as adding new Todos, editing existing ones, and synchronizing data with Firebase Firestore.
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding // Binding object for the activity's layout
     private lateinit var todoAdapter: TodoAdapter // Adapter for the RecyclerView
     private val todoList = mutableListOf<Todo>() // List to hold Todo items
     private val firestore = FirebaseFirestore.getInstance()
 
+
     // Declare the ActivityResultLauncher
     private lateinit var todoDetailsLauncher: ActivityResultLauncher<Intent>
 
+    /**
+     * onCreate method is called when the activity is created. It initializes the UI components,
+     * sets up the RecyclerView, and registers the ActivityResultLauncher for handling results
+     * from TodoDetailsActivity.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -67,7 +78,9 @@ class MainActivity : AppCompatActivity() {
         loadTodos()
     }
 
-    // Load Todos from Firestore
+    /**
+     * loadTodos method loads the list of Todos from Firestore and updates the RecyclerView.
+     */
     private fun loadTodos() {
         firestore.collection("todos")
             .get()
@@ -81,7 +94,10 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    // Add a new Todo to Firestore and update the list
+    /**
+     * addNewTodo method displays a dialog for the user to enter a new Todo item, adds it to Firestore,
+     * and updates the list.
+     */
     private fun addNewTodo() {
         // Create an AlertDialog to capture the Todo name
         val builder = AlertDialog.Builder(this)
@@ -103,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                     isCompleted = false,
                     hasDueDate = false
                 )
-
+                // Add the new Todo to Firestore and update the RecyclerView
                 firestore.collection("todos")
                     .add(newTodo)
                     .addOnSuccessListener {
