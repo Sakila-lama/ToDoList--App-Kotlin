@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddTodo.setOnClickListener {
             addNewTodo()
         }
-
         loadTodos()
     }
 
@@ -121,7 +120,8 @@ class MainActivity : AppCompatActivity() {
                 )
                 // Add the new Todo to Firestore and update the RecyclerView
                 firestore.collection("todos")
-                    .add(newTodo)
+                    .document(todoName)
+                    .set(newTodo)
                     .addOnSuccessListener {
                         todoList.add(newTodo)
                         todoAdapter.notifyItemInserted(todoList.size - 1)
